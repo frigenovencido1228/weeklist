@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "521117552668",
+    "project_id": "weeklist-dfd41",
+    "storage_bucket": "weeklist-dfd41.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:521117552668:android:8fe715894da00aa12d8fd9",
+        "android_client_info": {
+          "package_name": "com.example.weeklist"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBZgwNY1hK2aSQbtqi_APKwPN0lSJ9jDOk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
