@@ -43,12 +43,13 @@ class MainActivity : AppCompatActivity() {
         super.onStart()
         val currentUser = firebaseAuth.currentUser
 
-        Timer().schedule(1) {
+        Timer().schedule(2000) {
             if (currentUser != null) {
                 startActivity(Intent(applicationContext, ItemsActivity::class.java))
             } else {
                 startActivity(Intent(applicationContext, LoginActivity::class.java))
             }
+            finish()
         }
 
     }

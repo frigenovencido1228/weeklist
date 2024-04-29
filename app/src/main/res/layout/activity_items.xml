@@ -27,13 +27,16 @@
             android:padding="8dp">
 
             <TextView
+                android:textStyle="bold"
                 android:id="@+id/tvName"
+                style="@style/TextviewStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="4dp"
+                android:fontFamily="@font/dancing_script_bold"
                 android:textAlignment="textStart"
                 android:textColor="@color/white"
-                android:textSize="20sp" />
+                android:textSize="24sp" />
 
             <LinearLayout
                 android:layout_width="match_parent"

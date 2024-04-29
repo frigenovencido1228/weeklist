@@ -14,6 +14,7 @@
         android:layout_margin="8dp"
         app:cardCornerRadius="10dp"
         app:cardElevation="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -25,19 +26,21 @@
             android:padding="16dp">
 
             <TextView
+                style="@style/TextviewStyle"
                 android:id="@+id/tvWelcome"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="4dp"
                 android:text="Hi, Welcome 🙂"
                 android:textColor="@color/purple"
-                android:textSize="24sp"
+                android:textSize="30sp"
                 app:layout_constraintBottom_toTopOf="@id/tvMessage"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
+                style=""
                 android:id="@+id/tvMessage"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

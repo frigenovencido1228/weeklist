@@ -102,6 +102,10 @@ class RegisterActivity : AppCompatActivity() {
                                     OnCompleteListener {
                                         Commons.showToast(applicationContext,"User created.")
                                         loadingDialog.dismiss()
+
+                                        val intent = Intent(applicationContext,LoginActivity::class.java)
+                                        startActivity(intent)
+                                        finish()
                                     })
 
                                 .addOnFailureListener(OnFailureListener {

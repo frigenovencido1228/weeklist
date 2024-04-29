@@ -4,8 +4,19 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/purple"
+    android:gravity="center"
     android:orientation="vertical"
     tools:context=".MainActivity">
 
+    <TextView
+        style="@style/TextviewStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/satisfy"
+        android:text="Weeklist"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textSize="80sp" />
 
 </LinearLayout>

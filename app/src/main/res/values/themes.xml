@@ -7,6 +7,9 @@
         <item name="fontFamily">@font/montserrat</item>
 
     </style>
+    <style name="TextviewStyle">
+        <item name="fontFamily">@font/dancing_script_bold</item>
+    </style>
 
     <style name="Theme.Weeklist" parent="Base.Theme.Weeklist" />
 

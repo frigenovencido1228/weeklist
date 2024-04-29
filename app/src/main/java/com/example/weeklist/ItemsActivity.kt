@@ -81,7 +81,7 @@ class ItemsActivity : AppCompatActivity(), OnItemClick {
         loadingDialog.show()
         //check to see if user logged in or demo activity
         if (bundle != null) {
-            tvName.text = "DEMO"
+            tvName.text = "Hello, enjoy the demo."
             getAllItems(getStartDate(0), getEndDate(6))
         } else {
             getUserData()
@@ -93,7 +93,7 @@ class ItemsActivity : AppCompatActivity(), OnItemClick {
         usersDb.child(id).addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 val user = snapshot.getValue(User::class.java)
-                tvName.text = "Hello, ${user?.name?.uppercase()}"
+                tvName.text = "Hello, ${user?.name}"
 
                 //get items from current week
                 itemsDb = database.getReference("users").child(user?.id.toString()).child("items")
