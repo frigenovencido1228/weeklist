@@ -35,6 +35,100 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="4dp"
 
+        android:text="Date Range"
+        android:textColor="@color/purple"
+        android:textSize="16sp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="4dp"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="4dp"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <EditText
+                android:id="@+id/etDateStart"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:background="@drawable/custom_input"
+                android:drawableStart="@drawable/baseline_calendar_month_24"
+                android:drawableTint="@color/purple"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
+                android:inputType="none"
+                android:padding="8dp"
+                android:paddingStart="16dp"
+                android:singleLine="true"
+                android:textAlignment="center"
+                android:textColor="@color/black"
+                android:textSize="16sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
+
+                android:inputType="text"
+                android:text="start"
+                android:textAlignment="center"
+                android:textColor="@color/gray"
+                android:textSize="14sp"
+                android:textStyle="italic" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="4dp"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <EditText
+                android:id="@+id/etDateEnd"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:background="@drawable/custom_input"
+                android:drawableStart="@drawable/baseline_calendar_month_24"
+                android:drawableTint="@color/purple"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
+                android:padding="8dp"
+
+                android:paddingStart="16dp"
+                android:singleLine="true"
+                android:textAlignment="center"
+                android:textColor="@color/black"
+                android:textSize="16sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
+
+                android:inputType="text"
+                android:text="end"
+                android:textAlignment="center"
+                android:textColor="@color/gray"
+                android:textSize="14sp"
+                android:textStyle="italic" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="4dp"
         android:text="Price Range"
         android:textColor="@color/purple"
         android:textSize="16sp" />
@@ -42,6 +136,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
         android:orientation="horizontal">
 
         <LinearLayout
@@ -107,105 +202,8 @@
                 android:layout_height="wrap_content"
                 android:focusable="false"
                 android:focusableInTouchMode="false"
-
                 android:inputType="text"
                 android:text="max"
-                android:textAlignment="center"
-                android:textColor="@color/gray"
-                android:textSize="14sp"
-                android:textStyle="italic" />
-        </LinearLayout>
-
-    </LinearLayout>
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="4dp"
-
-        android:text="Date Range"
-        android:textColor="@color/purple"
-        android:textSize="16sp" />
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
-        android:orientation="horizontal">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="4dp"
-            android:layout_weight="1"
-            android:orientation="vertical">
-
-            <EditText
-                android:id="@+id/etDateStart"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:background="@drawable/custom_input"
-                android:drawableStart="@drawable/baseline_calendar_month_24"
-                android:drawableTint="@color/purple"
-                android:focusable="false"
-                android:focusableInTouchMode="false"
-                android:inputType="none"
-
-                android:padding="8dp"
-                android:paddingStart="16dp"
-                android:singleLine="true"
-                android:textAlignment="center"
-                android:textColor="@color/black"
-                android:textSize="16sp" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:focusable="false"
-                android:focusableInTouchMode="false"
-
-                android:inputType="text"
-                android:text="start"
-                android:textAlignment="center"
-                android:textColor="@color/gray"
-                android:textSize="14sp"
-                android:textStyle="italic" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="4dp"
-            android:layout_weight="1"
-            android:orientation="vertical">
-
-            <EditText
-                android:id="@+id/etDateEnd"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:background="@drawable/custom_input"
-                android:drawableStart="@drawable/baseline_calendar_month_24"
-                android:drawableTint="@color/purple"
-                android:focusable="false"
-                android:focusableInTouchMode="false"
-                android:padding="8dp"
-
-                android:paddingStart="16dp"
-                android:singleLine="true"
-                android:textAlignment="center"
-                android:textColor="@color/black"
-                android:textSize="16sp" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:focusable="false"
-                android:focusableInTouchMode="false"
-
-                android:inputType="text"
-                android:text="end"
                 android:textAlignment="center"
                 android:textColor="@color/gray"
                 android:textSize="14sp"
@@ -222,10 +220,11 @@
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnClear"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginRight="8dp"
+            android:layout_weight="1"
             android:backgroundTint="@color/white"
 
             android:text="Clear All"
@@ -239,16 +238,47 @@
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnFilter"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:layout_weight="1"
             android:backgroundTint="@color/purple"
             android:text="Apply Filters"
             android:textColor="@color/white"
             android:textSize="14sp"
             app:cornerRadius="8dp"
             app:icon="@drawable/baseline_check_24"
-            app:iconTint="@color/purple" />
+            app:iconTint="@color/white" />
+
+
     </LinearLayout>
 
+    <com.google.android.material.divider.MaterialDivider
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="start"
+        android:text="Account"
+        android:textColor="@color/purple"
+        android:textSize="21sp"
+        android:textStyle="bold" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnLogout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_weight="1"
+        android:backgroundTint="@color/red"
+        android:text="Logout"
+        android:textColor="@color/white"
+        android:textSize="14sp"
+        app:cornerRadius="8dp"
+        app:icon="@drawable/baseline_check_24"
+        app:iconTint="@color/white" />
 </LinearLayout>

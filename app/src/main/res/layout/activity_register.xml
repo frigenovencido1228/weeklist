@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    tools:context=".RegisterActivity">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        app:cardCornerRadius="10dp"
+        app:cardElevation="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:padding="16dp">
+
+            <TextView
+                android:id="@+id/tvWelcome"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="4dp"
+                android:text="Hi, Welcome 🙂"
+                android:textColor="@color/purple"
+                android:textSize="24sp"
+                app:layout_constraintBottom_toTopOf="@id/tvMessage"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tvMessage"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="28dp"
+                android:text="Please create an account to continue."
+                android:textColor="@color/gray"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toBottomOf="@id/tvEmail"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvWelcome" />
+
+            <TextView
+                android:id="@+id/tvEmail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="4dp"
+                android:text="Email Address"
+                android:textColor="@color/purple"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toTopOf="@id/etEmail"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvMessage" />
+
+            <EditText
+                android:id="@+id/etEmail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:background="@drawable/custom_input"
+                android:hint="Enter your email address"
+                android:inputType="textEmailAddress"
+                android:padding="8dp"
+                android:paddingStart="16dp"
+                android:singleLine="true"
+                android:textColor="@color/black"
+                android:textColorHint="@color/gray"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toTopOf="@id/tvPassword"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvEmail" />
+
+            <TextView
+                android:id="@+id/tvPassword"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="4dp"
+                android:text="Password"
+                android:textColor="@color/purple"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toTopOf="@id/etPassword"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/etEmail" />
+
+            <EditText
+                android:id="@+id/etPassword"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:background="@drawable/custom_input"
+                android:hint="Enter your password"
+                android:inputType="textPassword"
+                android:padding="8dp"
+                android:paddingStart="16dp"
+                android:singleLine="true"
+                android:textColor="@color/black"
+                android:textColorHint="@color/gray"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toTopOf="@id/tvConfirm"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvPassword" />
+
+            <TextView
+                android:id="@+id/tvConfirm"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="4dp"
+                android:text="Confirm Password"
+                android:textColor="@color/purple"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toTopOf="@id/etConfirm"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/etPassword" />
+
+            <EditText
+                android:id="@+id/etConfirm"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:background="@drawable/custom_input"
+                android:hint="Confirm your password"
+                android:inputType="textPassword"
+                android:padding="8dp"
+                android:paddingStart="16dp"
+                android:singleLine="true"
+                android:textColor="@color/black"
+                android:textColorHint="@color/gray"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toTopOf="@id/linearLayout"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvConfirm" />
+
+            <LinearLayout
+                android:id="@+id/linearLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="28dp"
+                android:orientation="vertical"
+                app:layout_constraintBottom_toTopOf="@id/btnRegister"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/etConfirm">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="4dp"
+                    android:text="Name"
+                    android:textColor="@color/purple"
+                    android:textSize="16sp" />
+
+                <EditText
+                    android:id="@+id/etName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/custom_input"
+                    android:hint="Enter name"
+                    android:inputType="text"
+                    android:padding="8dp"
+                    android:paddingStart="16dp"
+                    android:singleLine="true"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/gray"
+                    android:textSize="16sp" />
+
+            </LinearLayout>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnRegister"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="4dp"
+                android:text="Register"
+                android:textColor="@color/white"
+                app:backgroundTint="@color/purple"
+                app:cornerRadius="10dp"
+                app:layout_constraintBottom_toTopOf="@id/tvLogin"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/linearLayout" />
+
+            <TextView
+                android:id="@+id/tvLogin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:text="Already have an account? Login here."
+                android:textAlignment="center"
+                android:textColor="@color/gray"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toTopOf="@id/btnDemo"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/btnRegister" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnDemo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Demo the application."
+                android:textColor="@color/white"
+                app:backgroundTint="@color/gray"
+                app:cornerRadius="10dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvLogin" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.cardview.widget.CardView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

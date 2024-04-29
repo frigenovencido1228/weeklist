@@ -1,23 +1,27 @@
 package com.example.weeklist
 
 import android.app.Dialog
+import android.content.Intent
 import android.os.Bundle
 import android.view.Gravity
 import android.view.View
 import android.view.WindowManager
 import android.widget.EditText
 import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.weeklist.classes.Item
 import com.example.weeklist.classes.ItemsAdapter
 import com.example.weeklist.classes.OnItemClick
+import com.example.weeklist.classes.User
+import com.example.weeklist.commons.Commons
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.Firebase
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.auth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
@@ -27,6 +31,8 @@ import com.google.firebase.database.database
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
+import java.util.Timer
+import kotlin.concurrent.schedule
 
 class ItemsActivity : AppCompatActivity(), OnItemClick {
     lateinit var fabAdd: FloatingActionButton
@@ -37,19 +43,31 @@ class ItemsActivity : AppCompatActivity(), OnItemClick {
     lateinit var fabFilter: FloatingActionButton
     lateinit var tvDate: TextView
     lateinit var tvTotal: TextView
+    lateinit var firebaseAuth: FirebaseAuth
+    lateinit var usersDb: DatabaseReference
+    lateinit var tvName: TextView
+    lateinit var loadingDialog: Dialog
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_items)
 
+        loadingDialog = Commons.loadingDialog(this@ItemsActivity)
+
+        val bundle: Bundle? = intent.extras
+        firebaseAuth = Firebase.auth
 
         rvItems = findViewById(R.id.rvItems)
         tvDate = findViewById(R.id.tvDate)
         tvTotal = findViewById(R.id.tvTotal)
+        tvName = findViewById(R.id.tvName)
 
         fabFilter = findViewById(R.id.fabFilter)
         fabAdd = findViewById(R.id.fabAdd)
         database = Firebase.database
+
+        usersDb = database.getReference("users")
+
         itemsDb = database.getReference("items")
         itemsList = arrayListOf()
 
@@ -60,8 +78,34 @@ class ItemsActivity : AppCompatActivity(), OnItemClick {
             showFilterDialog()
         })
 
-        //get items from current week
-        getAllItems(getStartDate(0), getEndDate(6))
+        loadingDialog.show()
+        //check to see if user logged in or demo activity
+        if (bundle != null) {
+            tvName.text = "DEMO"
+            getAllItems(getStartDate(0), getEndDate(6))
+        } else {
+            getUserData()
+        }
+    }
+
+    private fun getUserData() {
+        val id = firebaseAuth.currentUser?.uid.toString()
+        usersDb.child(id).addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                val user = snapshot.getValue(User::class.java)
+                tvName.text = "Hello, ${user?.name?.uppercase()}"
+
+                //get items from current week
+                itemsDb = database.getReference("users").child(user?.id.toString()).child("items")
+                getAllItems(getStartDate(0), getEndDate(6))
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                TODO("Not yet implemented")
+            }
+
+        })
+
     }
 
     private fun showFilterDialog() {
@@ -76,11 +120,25 @@ class ItemsActivity : AppCompatActivity(), OnItemClick {
         val simpleDateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.TAIWAN)
         val etPriceStart = dialog.findViewById<EditText>(R.id.etPriceStart)
         val etPriceEnd = dialog.findViewById<EditText>(R.id.etPriceEnd)
+        val btnLogout = dialog.findViewById<MaterialButton>(R.id.btnLogout)
+        btnLogout.setOnClickListener(View.OnClickListener {
+            loadingDialog.show()
+            Timer().schedule(2000) {
+                loadingDialog.dismiss()
+                dialog.dismiss()
+                firebaseAuth.signOut()
+                val intent = Intent(applicationContext, LoginActivity::class.java)
+                startActivity(intent)
+                finish()
+            }
+
+        })
 
         val btnClearAll = dialog.findViewById<MaterialButton>(R.id.btnClear)
         btnClearAll.setOnClickListener(View.OnClickListener {
             getAllItems(getStartDate(0), getEndDate(6))
-            Toast.makeText(applicationContext, "Filters cleared.", Toast.LENGTH_SHORT).show()
+            Commons.showToast(applicationContext, "Filters cleared.")
+            loadingDialog.dismiss()
             dialog.dismiss()
         })
 
@@ -123,7 +181,11 @@ class ItemsActivity : AppCompatActivity(), OnItemClick {
             val doubleStart = etPriceStart.text.toString()
             val doubleEnd = etPriceEnd.text.toString()
 
-            if (doubleStart.isEmpty() && doubleEnd.isEmpty()) {
+            if (doubleStart.isEmpty() || doubleEnd.isEmpty()) {
+                if (strStartDate == "" && strEndDate == "") {
+                    Commons.showToast(applicationContext, "Enter start date and end date")
+                    return@OnClickListener
+                }
                 getAllItems(strStartDate, strEndDate)
             } else {
                 getAllItems(
@@ -133,7 +195,8 @@ class ItemsActivity : AppCompatActivity(), OnItemClick {
                     doubleEnd.toDouble()
                 )
             }
-            Toast.makeText(applicationContext, "Filters applied.", Toast.LENGTH_SHORT).show()
+            loadingDialog.dismiss()
+            Commons.showToast(applicationContext, "Filters applied.")
             dialog.dismiss()
         })
     }
@@ -171,10 +234,11 @@ class ItemsActivity : AppCompatActivity(), OnItemClick {
             val price = etPrice.text.toString().trim()
 
             if (name.isEmpty() && price.isEmpty()) {
-                Toast.makeText(applicationContext, "Please fill fields", Toast.LENGTH_SHORT).show()
+                Commons.showToast(applicationContext, "Please fill up all fields.")
                 return@OnClickListener
             }
 
+            loadingDialog.show()
             addToDb(name, price, dialog)
 
         })
@@ -225,14 +289,12 @@ class ItemsActivity : AppCompatActivity(), OnItemClick {
         val items = Item(name, id, timeStamp.toString(), price)
 
         itemsDb.child(id).setValue(items).addOnCompleteListener {
-            Toast.makeText(applicationContext, "Item added", Toast.LENGTH_SHORT).show()
+            Commons.showToast(applicationContext, "Item added.")
+            loadingDialog.dismiss()
             dialog.dismiss()
         }.addOnFailureListener {
-            Toast.makeText(
-                applicationContext,
-                "Adding failed. Error: ${it.message}",
-                Toast.LENGTH_SHORT
-            ).show()
+            Commons.showToast(applicationContext, "Adding failed. Error: ${it.message}")
+            loadingDialog.dismiss()
             dialog.dismiss()
         }
     }
@@ -243,44 +305,44 @@ class ItemsActivity : AppCompatActivity(), OnItemClick {
         priceStart: Double? = 0.0,
         priceEnd: Double? = 0.0
     ) {
-
-
         val query = itemsDb.orderByChild("createdAt").startAt(start).endAt(end)
         //get items and order by date
         query.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
+
                 itemsList.clear()
                 var total: Double = 0.00
-                if (snapshot.exists()) {
-                    for (itemSnap in snapshot.children) {
-                        val items = itemSnap.getValue(Item::class.java)
+                for (itemSnap in snapshot.children) {
+                    val items = itemSnap.getValue(Item::class.java)
 
-                        //multiply to 100 then divide to avoid problems with double
-                        total += items?.price.toString().toDouble() * 100
-                        itemsList.add(items!!)
-                    }
-                    //sort by descending to show latest items first
-                    itemsList.sortByDescending { it.createdAt }
-
-                    if (priceStart != 0.0 || priceEnd != 0.0) {
-
-                        itemsList =
-                            itemsList.filter {
-                                it.price?.toDouble()!! > priceStart!! && it.price?.toDouble()!! <= priceEnd!!
-                            } as ArrayList<Item>
-                    }
-
-                    rvItems.layoutManager = LinearLayoutManager(this@ItemsActivity)
-                    rvItems.setHasFixedSize(true)
-
-                    rvItems.adapter = ItemsAdapter(itemsList, this@ItemsActivity)
-                    tvDate.text = "$start to $end"
-                    tvTotal.text = "Total: ${total / 100}"
+                    //multiply to 100 then divide to avoid problems with double
+                    total += items?.price.toString().toDouble() * 100
+                    itemsList.add(items!!)
                 }
+                //sort by descending to show latest items first
+                itemsList.sortByDescending { it.createdAt }
+
+                if (priceStart != 0.0 || priceEnd != 0.0) {
+                    itemsList =
+                        itemsList.filter {
+                            it.price?.toDouble()!! > priceStart!! && it.price?.toDouble()!! <= priceEnd!!
+                        } as ArrayList<Item>
+                }
+
+                rvItems.layoutManager = LinearLayoutManager(this@ItemsActivity)
+                rvItems.setHasFixedSize(true)
+
+                rvItems.adapter = ItemsAdapter(itemsList, this@ItemsActivity)
+                tvDate.text = "$start to $end"
+                tvTotal.text = "Total: ${total / 100}"
+
+                loadingDialog.dismiss()
+
             }
 
             override fun onCancelled(error: DatabaseError) {
-                Toast.makeText(applicationContext, "Error $error", Toast.LENGTH_SHORT).show()
+                Commons.showToast(applicationContext, "Error: ${error.message}")
+                loadingDialog.dismiss()
             }
         })
     }
@@ -290,7 +352,7 @@ class ItemsActivity : AppCompatActivity(), OnItemClick {
     }
 
     private fun showItemDetails(item: Item) {
-        val dialog = Dialog(this)
+        val dialog = Dialog(this@ItemsActivity)
         dialog.setContentView(R.layout.dialog_item)
         dialog.show()
         setDialogAttributes(dialog)
@@ -310,20 +372,19 @@ class ItemsActivity : AppCompatActivity(), OnItemClick {
             val price = etPrice.text.toString().trim()
 
             if (name.isEmpty() || price.isEmpty()) {
-                Toast.makeText(applicationContext, "Fill up all fields", Toast.LENGTH_SHORT).show()
+                Commons.showToast(this@ItemsActivity, "Fill up all fields.")
                 return@setOnClickListener
             }
 
+            loadingDialog.show()
             val item = Item(name, item.id, item.createdAt, price)
             itemsDb.child(item.id.toString()).setValue(item).addOnCompleteListener {
-                Toast.makeText(applicationContext, "Item Updated.", Toast.LENGTH_SHORT).show()
+                Commons.showToast(this@ItemsActivity, "Item updated.")
+                loadingDialog.dismiss()
                 dialog.dismiss()
             }.addOnFailureListener {
-                Toast.makeText(
-                    applicationContext,
-                    "Updating failed. Error: ${it.message}",
-                    Toast.LENGTH_SHORT
-                ).show()
+                Commons.showToast(this@ItemsActivity, "Updating failed. Error: ${it.message}")
+                loadingDialog.dismiss()
                 dialog.dismiss()
             }
 
@@ -360,15 +421,14 @@ class ItemsActivity : AppCompatActivity(), OnItemClick {
         btnDelete.setBackgroundColor(resources.getColor(R.color.red))
 
         btnDelete.setOnClickListener(View.OnClickListener {
+            loadingDialog.show()
             itemsDb.child(item.id.toString()).removeValue().addOnCompleteListener {
-                Toast.makeText(applicationContext, "Item deleted.", Toast.LENGTH_SHORT).show()
+                Commons.showToast(applicationContext, "Item deleted.")
+                loadingDialog.dismiss()
                 dialog.dismiss()
             }.addOnFailureListener {
-                Toast.makeText(
-                    applicationContext,
-                    "Deleting failed. Error: ${it.message}",
-                    Toast.LENGTH_SHORT
-                ).show()
+                Commons.showToast(applicationContext, "Deleting failed. Error: ${it.message}")
+                loadingDialog.dismiss()
                 dialog.dismiss()
             }
         })

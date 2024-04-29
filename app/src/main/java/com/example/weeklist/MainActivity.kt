@@ -1,7 +1,9 @@
 package com.example.weeklist
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Handler
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
@@ -13,6 +15,8 @@ import androidx.recyclerview.widget.RecyclerView.LayoutManager
 import com.example.weeklist.classes.Item
 import com.example.weeklist.classes.ItemsAdapter
 import com.example.weeklist.classes.OnItemClick
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
@@ -20,61 +24,33 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.ktx.app
 import org.w3c.dom.Text
 import java.sql.Timestamp
+import java.util.Timer
+import kotlin.concurrent.schedule
 
 class MainActivity : AppCompatActivity() {
-
+    lateinit var firebaseAuth: FirebaseAuth
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        firebaseAuth = Firebase.auth
     }
 
-//    private fun addItem() {
-//        val name = etName?.text.toString()
-//        val price = etPrice?.text.toString()
-//
-//        if (name.isEmpty() || price.isEmpty()) {
-//            Toast.makeText(applicationContext, "Enter name and price", Toast.LENGTH_LONG).show()
-//            return
-//        }
-//
-//        val currentTimeMillis = System.currentTimeMillis()
-//        val timeStamp = Timestamp(currentTimeMillis)
-//        val id = myDb.push().key!!
-//        val items = Item(name, id, timeStamp.toString(), price)
-//
-//        myDb.child(id).setValue(items).addOnCompleteListener {
-//            Toast.makeText(applicationContext, "Item added", Toast.LENGTH_SHORT).show()
-//        }.addOnFailureListener {
-//            Toast.makeText(applicationContext, "Item failed", Toast.LENGTH_SHORT).show()
-//        }
-//    }
-//
-//    private fun getData() {
-//        myDb.addValueEventListener(object : ValueEventListener {
-//            override fun onDataChange(snapshot: DataSnapshot) {
-//                itemsList.clear()
-//                if (snapshot.exists()) {
-//                    for (itemSnap in snapshot.children) {
-//                        val items = itemSnap.getValue(Item::class.java)
-//                        itemsList.add(items!!)
-//                    }
-//                    rvItems.layoutManager = LinearLayoutManager(this@MainActivity)
-//                    rvItems.setHasFixedSize(true)
-//                    rvItems.adapter = ItemsAdapter(itemsList,this@MainActivity)
-//                }
-//            }
-//
-//            override fun onCancelled(error: DatabaseError) {
-//                Toast.makeText(applicationContext, "Error $error", Toast.LENGTH_SHORT).show()
-//            }
-//
-//        })
-//    }
-//
-//    override fun onClick(item: Item) {
-//        TODO("Not yet implemented")
-//    }
+    override fun onStart() {
+        super.onStart()
+        val currentUser = firebaseAuth.currentUser
+
+        Timer().schedule(1) {
+            if (currentUser != null) {
+                startActivity(Intent(applicationContext, ItemsActivity::class.java))
+            } else {
+                startActivity(Intent(applicationContext, LoginActivity::class.java))
+            }
+        }
+
+    }
+
 }
